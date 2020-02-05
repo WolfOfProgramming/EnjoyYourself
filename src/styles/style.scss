@@ -1,0 +1,182 @@
+@import './variables';
+
+*,
+*::after,
+*::before {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.page-header {
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    background-color: $dark;
+    margin-bottom: 2em;
+
+    .title {
+        font-size: 2.2em;
+        color: $light;
+    }
+}
+
+.container {
+    display: flex;
+    justify-content: space-evenly;
+
+    .component {
+        width: 30%;
+        text-align: center;
+        background-color: $light;
+
+        &__title {
+            font-size: 1.5em;
+        }
+
+        &__description {
+            font-size: 1.1em;
+        }
+
+        &__list {
+            list-style: none;
+            text-align: left;
+        }
+
+        &__item {
+            padding: 1em;
+            margin-bottom: 0.5em;
+            background-color: $dark;
+            border-radius: $radius;
+        }
+    }
+}
+
+.section {
+    background-color: $dark;
+    margin-bottom: 1em;
+    border-radius: $radius;
+    color: $light;
+    padding: 1.5em;
+
+    &__title {
+        font-size: 1.5em;
+    }
+
+    &__description {
+        font-size: 1.1em;
+    }
+}
+
+.item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: $light;
+
+    &__section {
+        display: flex;
+        align-items: center;
+        width: 75%;
+    }
+
+    &__description {
+        display: inline;
+        font-size: 1.6em;
+        overflow-wrap: break-word;
+        max-width: 80%;
+    }
+
+    &__date {
+        font-size: 0.9375em;
+        display: inline;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    &__options {
+        display: flex;
+        width: 25%;
+    }
+
+    .button {
+        $size: 40px;
+        border: none;
+        cursor: pointer;
+        background: transparent;
+        width: $size;
+        height: $size;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 0.3em;
+    }
+
+    .svg {
+        width: 30px;
+        height: 30px;
+    }
+
+    .button .svg {
+        display: block;
+    }
+
+    .button .svg_active {
+        display: none;
+    }
+
+    .button_active .svg {
+        display: none;
+    }
+
+    .button_active .svg_active {
+        display: block;
+    }
+
+    .path {
+        fill: $light;
+    }
+}
+
+.form-add {
+    padding: 0.5em;
+    $size: 40px;
+
+    .button {
+        width: $size * 1.5;
+        height: $size;
+        border-radius: $radius;
+        border: none;
+        cursor: pointer;
+        background-color: $light;
+        position: relative;
+        margin: 0.5em;
+
+        .path {
+            fill: $dark;
+        }
+    }
+    &__input {
+        height: $size;
+        border-radius: $radius;
+        border: none;
+        padding: 1em;
+    }
+}
+
+.schedule {
+    text-align: center;
+}
+
+.page-footer {
+    position: absolute;
+    bottom: 0;
+    text-align: center;
+}
+
+.svg {
+    width: 20px;
+    height: 20px;
+}
