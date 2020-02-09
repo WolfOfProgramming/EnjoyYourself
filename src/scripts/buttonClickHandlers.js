@@ -8,8 +8,7 @@ const getItemIndex = (clickedItem, array) => {
 const addItemObject = value => {
     return {
         value: value,
-        date: new Date().toLocaleString(),
-        isDone: false
+        progress: 'In Progress'
     };
 };
 
@@ -17,7 +16,9 @@ const hasOtherLiveEdits = () => {
     return !!document.querySelector('.form-edit');
 };
 
-export const handleAddButton = (buttonReference, componentName) => {
+export const handleAddButton = buttonReference => {
+    const componentReference = buttonReference.closest('article');
+    const componentName = componentReference.dataset.name;
     const parentSection = buttonReference.closest('form');
     const input = parentSection.querySelector('input');
     const savedArray = getSavedArray(componentName);
@@ -28,11 +29,9 @@ export const handleAddButton = (buttonReference, componentName) => {
     }
 };
 
-export const handleDeleteButton = (
-    buttonReference,
-    componentName,
-    componentReference
-) => {
+export const handleDeleteButton = buttonReference => {
+    const componentReference = buttonReference.closest('article');
+    const componentName = componentReference.dataset.name;
     const savedArray = getSavedArray(componentName);
     const componentItems = componentReference.querySelectorAll(
         '.component__item'
@@ -45,11 +44,9 @@ export const handleDeleteButton = (
     changeSavedArray(componentName, newArray);
 };
 
-export const handleConfirmButton = (
-    buttonReference,
-    componentName,
-    componentReference
-) => {
+export const handleConfirmButton = buttonReference => {
+    const componentReference = buttonReference.closest('article');
+    const componentName = componentReference.dataset.name;
     const savedArray = getSavedArray(componentName);
     const parentSection = buttonReference.closest('form');
     const input = parentSection.querySelector('input');
@@ -74,11 +71,9 @@ export const handleEditButton = buttonReference => {
     }
 };
 
-export const handleCheckButton = (
-    buttonReference,
-    componentName,
-    componentReference
-) => {
+export const handleChangingProgress = (buttonReference, progress) => {
+    const componentReference = buttonReference.closest('article');
+    const componentName = componentReference.dataset.name;
     const savedArray = getSavedArray(componentName);
     const componentItems = componentReference.querySelectorAll(
         '.component__item'
@@ -87,6 +82,6 @@ export const handleCheckButton = (
     const clickedItemIndex = getItemIndex(clickedItem, componentItems);
 
     const newArray = [...savedArray];
-    newArray[clickedItemIndex].isDone = !newArray[clickedItemIndex].isDone;
+    newArray[clickedItemIndex].progress = progress;
     changeSavedArray(componentName, newArray);
 };

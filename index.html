@@ -22,42 +22,121 @@
                 class="component component_type_routines"
                 data-name="routines"
             >
-                <section class="section section_type_routines">
-                    <h3 class="section__title">Daily Routines</h3>
-                    <p class="section__description">
+                <header class="header header_type_routines">
+                    <h3 class="header__title">Daily Routines</h3>
+                    <p class="header__description">
                         Set your daily routines, which will help you achieve
                         your goals.
                     </p>
-                </section>
+                </header>
                 <ul class="component__list component__list_type_routines"></ul>
             </article>
             <article
                 class="component component_type_life-goals"
                 data-name="life-goals"
             >
-                <section class="section section_type_life-goals">
-                    <h3 class="section__title">Life Goals</h3>
-                    <p class="section__description">
+                <header class="header header_type_life-goals">
+                    <h3 class="header__title">Life Goals</h3>
+                    <p class="header__description">
                         Set your life goals here.
                     </p>
-                </section>
+                </header>
                 <ul
                     class="component__list component__list_type_life-goals"
                 ></ul>
             </article>
             <article class="component component_type_dreams" data-name="dreams">
-                <section class="section section_type_dreams">
-                    <h3 class="section__title">Dreams</h3>
-                    <p class="section__description">
+                <header class="header header_type_dreams">
+                    <h3 class="header__title">Dreams</h3>
+                    <p class="header__description">
                         Don't forget about your dreams.
                     </p>
-                </section>
+                </header>
                 <ul class="component__list component__list_type_dreams"></ul>
             </article>
         </main>
         <section class="schedule">
-            <h2>Schedule</h2>
-            <p>You can plan and download your daily schedule here.</p>
+            <header class="header header_style_square">
+                <h2 class="header__title">Schedule</h2>
+                <p class="header__description">
+                    You can plan and download your daily schedule here.
+                </p>
+                <form class="form-schedule">
+                    <div
+                        class="form-schedule__wrapper form-schedule__wrapper_since"
+                    >
+                        <label for="inputHourSince">Hour</label>
+                        <input
+                            class="form-schedule__input"
+                            type="range"
+                            min="0"
+                            max="23"
+                            id="inputHourSince"
+                            name="inputHourSince"
+                            data-time="hourSince"
+                        />
+                        <label for="inputMinuteSince">Minutes</label>
+                        <input
+                            class="form-schedule__input"
+                            type="range"
+                            min="0"
+                            max="59"
+                            id="inputMinuteSince"
+                            name="inputMinuteSince"
+                            data-time="minuteSince"
+                        />
+                    </div>
+                    <div
+                        class="form-schedule__wrapper form-schedule__wrapper_to"
+                    >
+                        <label for="inputHourTo">Hour</label>
+                        <input
+                            class="form-schedule__input"
+                            type="range"
+                            min="0"
+                            max="23"
+                            id="inputHourTo"
+                            name="inputHourTo"
+                            data-time="hourTo"
+                        />
+                        <label for="inputMinuteTo">Minutes</label>
+                        <input
+                            class="form-schedule__input"
+                            type="range"
+                            min="0"
+                            max="59"
+                            id="inputMinuteTo"
+                            name="inputMinuteTo"
+                            data-time="minuteTo"
+                        />
+                    </div>
+                    <input
+                        class="form-schedule__input"
+                        type="text"
+                        placeholder="Add task description"
+                    />
+                    <button
+                        class="button button_type_add"
+                        type="button"
+                        data-task="add"
+                    >
+                        Add
+                    </button>
+                </form>
+            </header>
+            <table class="table schedule__table">
+                <thead class="table__head">
+                    <tr class="table__row">
+                        <th class="table__header-cell" colspan="3">Schedule</th>
+                    </tr>
+                    <tr class="table__row">
+                        <th class="table__header-cell">Since</th>
+                        <th class="table__header-cell">To</th>
+                        <th class="table__header-cell">Description</th>
+                    </tr>
+                </thead>
+                <tbody class="table__body"></tbody>
+            </table>
         </section>
         <footer class="page-footer">
             <p>Make your dreams come true.</p>

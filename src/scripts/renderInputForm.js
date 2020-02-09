@@ -4,7 +4,7 @@ export const renderInputForm = name => {
             <input
                 class="form-add__input"
                 type="text"
-                placeholder="Add another ${name}"
+                placeholder="Add another ${name}."
             />
             <button
                 class="button button_type_add"

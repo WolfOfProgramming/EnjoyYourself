@@ -6,10 +6,11 @@ import {
     handleDeleteButton,
     handleEditButton,
     handleConfirmButton,
-    handleCheckButton
+    handleChangingProgress
 } from './buttonClickHandlers';
 
 const mainSection = document.querySelector('.container');
+const scheduleForm = document.querySelector('.form-schedule');
 
 const lifeGoalsList = document.querySelector(
     '.component__list_type_life-goals'
@@ -17,39 +18,52 @@ const lifeGoalsList = document.querySelector(
 const dreamsList = document.querySelector('.component__list_type_dreams');
 const routinesList = document.querySelector('.component__list_type_routines');
 
-const lifeGoalsSection = document.querySelector('.section_type_life-goals');
-const dreamsSection = document.querySelector('.section_type_dreams');
-const routinesSection = document.querySelector('.section_type_routines');
+const lifeGoalsHeader = document.querySelector('.header_type_life-goals');
+const dreamsHeader = document.querySelector('.header_type_dreams');
+const routinesHeader = document.querySelector('.header_type_routines');
+
+const scheduleFormObject = {
+    minuteTo: 0,
+    minuteSince: 0,
+    hourTo: 0,
+    hourSince: 0
+};
 
 lifeGoalsList.insertAdjacentHTML('beforeend', createListContent('life-goals'));
-lifeGoalsSection.insertAdjacentHTML('beforeend', renderInputForm('life-goals'));
+lifeGoalsHeader.insertAdjacentHTML('beforeend', renderInputForm('life-goals'));
 
 dreamsList.insertAdjacentHTML('beforeend', createListContent('dreams'));
-dreamsSection.insertAdjacentHTML('beforeend', renderInputForm('dreams'));
+dreamsHeader.insertAdjacentHTML('beforeend', renderInputForm('dreams'));
 
 routinesList.insertAdjacentHTML('beforeend', createListContent('routines'));
-routinesSection.insertAdjacentHTML('beforeend', renderInputForm('routines'));
+routinesHeader.insertAdjacentHTML('beforeend', renderInputForm('routines'));
 
 mainSection.addEventListener('click', e => {
     const clickedButton = e.target.closest('button');
     if (clickedButton) {
         const component = clickedButton.closest('article');
-        const componentList = component.querySelector('ul');
         const componentName = component.dataset.name;
+        const componentList = component.querySelector('ul');
         const buttonTask = clickedButton.dataset.task;
 
         switch (buttonTask) {
             case 'add':
-                handleAddButton(clickedButton, componentName);
+                handleAddButton(clickedButton);
                 break;
             case 'delete':
-                handleDeleteButton(clickedButton, componentName, component);
+                handleDeleteButton(clickedButton);
                 break;
-            case 'check':
-                handleCheckButton(clickedButton, componentName, component);
+            case 'done':
+                handleChangingProgress(clickedButton, 'Done');
+                break;
+            case 'progress':
+                handleChangingProgress(clickedButton, 'In progress');
+                break;
+            case 'hang':
+                handleChangingProgress(clickedButton, 'Not now');
                 break;
             case 'confirm':
-                handleConfirmButton(clickedButton, componentName, component);
+                handleConfirmButton(clickedButton);
                 break;
             case 'cancel':
                 break;
@@ -65,4 +79,23 @@ mainSection.addEventListener('click', e => {
             createListContent(componentName)
         );
     }
+});
+
+scheduleForm.addEventListener('input', e => {
+    const input = e.target;
+    switch (input.dataset.time) {
+        case 'minuteTo':
+            scheduleFormObject['minuteTo'] = input.value;
+            break;
+        case 'minuteSince':
+            scheduleFormObject['minuteSince'] = input.value;
+            break;
+        case 'hourTo':
+            scheduleFormObject['hourTo'] = input.value;
+            break;
+        case 'hourSince':
+            scheduleFormObject['hourSince'] = input.value;
+            break;
+    }
+    console.log(scheduleFormObject);
 });

@@ -9,16 +9,20 @@
     font-family: 'Montserrat', sans-serif;
 }
 
+:root {
+    background-color: $dark;
+}
+
 .page-header {
     display: flex;
     align-content: center;
     justify-content: center;
-    background-color: $dark;
+    background-color: $light;
     margin-bottom: 2em;
 
     .title {
         font-size: 2.2em;
-        color: $light;
+        color: $dark;
     }
 }
 
@@ -29,7 +33,7 @@
     .component {
         width: 30%;
         text-align: center;
-        background-color: $light;
+        background-color: $dark;
 
         &__title {
             font-size: 1.5em;
@@ -45,19 +49,21 @@
         }
 
         &__item {
-            padding: 1em;
-            margin-bottom: 0.5em;
-            background-color: $dark;
+            padding-top: 1.5em;
+            padding-bottom: 1.5em;
+            margin-top: 1em;
+            margin-bottom: 1em;
+            background-color: $light;
             border-radius: $radius;
         }
     }
 }
 
-.section {
-    background-color: $dark;
+.header {
+    background-color: $light;
     margin-bottom: 1em;
     border-radius: $radius;
-    color: $light;
+    color: $dark;
     padding: 1.5em;
 
     &__title {
@@ -69,74 +75,82 @@
     }
 }
 
+.header_style_square {
+    background-color: $accent;
+    border-radius: 0;
+    color: $light;
+}
+
 .item {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    color: $light;
+    color: $dark;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
 
     &__section {
         display: flex;
         align-items: center;
-        width: 75%;
+        justify-content: space-between;
+        width: 100%;
+        transition: 600ms ease-in-out;
+        transform: translateX(0%);
     }
 
     &__description {
         display: inline;
-        font-size: 1.6em;
+        font-size: 1.5em;
         overflow-wrap: break-word;
-        max-width: 80%;
+        max-width: 75%;
+        padding-left: 1.5em;
     }
 
-    &__date {
-        font-size: 0.9375em;
-        display: inline;
-        display: flex;
-        justify-content: center;
-        align-items: center;
+    &__progress {
+        width: 25%;
+        padding-right: 1.5em;
+        font-size: 1.2em;
     }
 
     &__options {
         display: flex;
-        width: 25%;
+        justify-content: space-evenly;
+        align-items: center;
+        width: 100%;
+        transition: 600ms ease-in-out;
+        transform: translateX(0%);
+        position: absolute;
+        left: 100%;
     }
 
+    $size: 40px;
+
     .button {
-        $size: 40px;
         border: none;
         cursor: pointer;
         background: transparent;
         width: $size;
         height: $size;
+        margin: 0.3em;
+        transition: 300ms 100ms linear;
         display: flex;
         justify-content: center;
         align-items: center;
-        margin: 0.3em;
     }
 
     .svg {
-        width: 30px;
-        height: 30px;
-    }
-
-    .button .svg {
-        display: block;
-    }
-
-    .button .svg_active {
-        display: none;
-    }
-
-    .button_active .svg {
-        display: none;
-    }
-
-    .button_active .svg_active {
-        display: block;
+        width: $size;
+        height: $size;
     }
 
     .path {
-        fill: $light;
+        fill: $dark;
+    }
+
+    &:hover &__options,
+    &:hover &__section {
+        transform: translateX(-100%);
     }
 }
 
@@ -145,38 +159,42 @@
     $size: 40px;
 
     .button {
+        position: relative;
         width: $size * 1.5;
         height: $size;
         border-radius: $radius;
         border: none;
-        cursor: pointer;
-        background-color: $light;
-        position: relative;
+        background-color: $dark;
+        color: $light;
         margin: 0.5em;
+        cursor: pointer;
 
         .path {
-            fill: $dark;
+            fill: $light;
         }
     }
     &__input {
         height: $size;
         border-radius: $radius;
-        border: none;
         padding: 1em;
+        background-color: $light;
+        color: $dark;
+        border: 3px solid $dark;
+    }
+}
+
+.form-edit {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+
+    &__buttons-container {
+        display: flex;
     }
 }
 
 .schedule {
     text-align: center;
-}
-
-.page-footer {
-    position: absolute;
-    bottom: 0;
-    text-align: center;
-}
-
-.svg {
-    width: 20px;
-    height: 20px;
+    background-color: $light;
 }
