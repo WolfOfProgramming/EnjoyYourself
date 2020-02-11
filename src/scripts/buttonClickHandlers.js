@@ -1,4 +1,4 @@
-import { getSavedArray, changeSavedArray } from './renderListContent';
+import { getSavedArray, changeSavedArray } from './utilityFunctions';
 import { renderEditForm } from './renderEditForm';
 
 const getItemIndex = (clickedItem, array) => {
@@ -16,7 +16,7 @@ const hasOtherLiveEdits = () => {
     return !!document.querySelector('.form-edit');
 };
 
-export const handleAddButton = buttonReference => {
+export const handleAddingValueToStorage = buttonReference => {
     const componentReference = buttonReference.closest('article');
     const componentName = componentReference.dataset.name;
     const parentSection = buttonReference.closest('form');
@@ -29,7 +29,7 @@ export const handleAddButton = buttonReference => {
     }
 };
 
-export const handleDeleteButton = buttonReference => {
+export const handleDeletingValueFromStorage = buttonReference => {
     const componentReference = buttonReference.closest('article');
     const componentName = componentReference.dataset.name;
     const savedArray = getSavedArray(componentName);
@@ -44,7 +44,7 @@ export const handleDeleteButton = buttonReference => {
     changeSavedArray(componentName, newArray);
 };
 
-export const handleConfirmButton = buttonReference => {
+export const handleCommittingItemChangesInStorage = buttonReference => {
     const componentReference = buttonReference.closest('article');
     const componentName = componentReference.dataset.name;
     const savedArray = getSavedArray(componentName);
@@ -63,7 +63,7 @@ export const handleConfirmButton = buttonReference => {
     }
 };
 
-export const handleEditButton = buttonReference => {
+export const handleChangingItemValueInStorage = buttonReference => {
     if (!hasOtherLiveEdits()) {
         const parentItem = buttonReference.closest('li');
         parentItem.textContent = '';
@@ -71,7 +71,7 @@ export const handleEditButton = buttonReference => {
     }
 };
 
-export const handleChangingProgress = (buttonReference, progress) => {
+export const handleChangingProgressInStorage = (buttonReference, progress) => {
     const componentReference = buttonReference.closest('article');
     const componentName = componentReference.dataset.name;
     const savedArray = getSavedArray(componentName);
@@ -84,4 +84,41 @@ export const handleChangingProgress = (buttonReference, progress) => {
     const newArray = [...savedArray];
     newArray[clickedItemIndex].progress = progress;
     changeSavedArray(componentName, newArray);
+};
+
+const createScheduleObject = (scheduleFormObject, description) => {
+    return {
+        ...scheduleFormObject,
+        description: description
+    };
+};
+
+export const handlePushingItemToScheduleStorage = (
+    buttonReference,
+    scheduleFormObject
+) => {
+    const parentElement = buttonReference.closest('form');
+    const input = parentElement.querySelector(
+        '.form-schedule__input_type_text'
+    );
+
+    if (input.value) {
+        const savedArray = getSavedArray('schedule');
+        const newArray = [
+            ...savedArray,
+            createScheduleObject(scheduleFormObject, input.value)
+        ];
+        changeSavedArray('schedule', newArray);
+    }
+};
+
+export const handleDeletingItemFromScheduleStorage = buttonReference => {
+    const savedArray = getSavedArray('schedule');
+    const tableBody = buttonReference.closest('tbody');
+    const tableRows = tableBody.querySelectorAll('tr');
+    const clickedRow = buttonReference.closest('tr');
+    const clickedRowIndex = getItemIndex(clickedRow, tableRows);
+    const newArray = [...savedArray];
+    newArray.splice(clickedRowIndex, 1);
+    changeSavedArray('schedule', newArray);
 };

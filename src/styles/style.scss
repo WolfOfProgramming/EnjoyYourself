@@ -9,10 +9,6 @@
     font-family: 'Montserrat', sans-serif;
 }
 
-:root {
-    background-color: $dark;
-}
-
 .page-header {
     display: flex;
     align-content: center;
@@ -28,12 +24,26 @@
 
 .container {
     display: flex;
-    justify-content: space-evenly;
+    width: 100%;
+    flex-wrap: wrap;
+
+    @media (min-width: $for_small_up) {
+        flex-direction: column;
+        align-content: center;
+    }
+
+    @media (min-width: $for_large_up) {
+        flex-direction: row;
+        justify-content: space-evenly;
+    }
 
     .component {
-        width: 30%;
+        flex: 1;
         text-align: center;
+        min-width: 340px;
+        max-width: 700px;
         background-color: $dark;
+        padding: 1.5em;
 
         &__title {
             font-size: 1.5em;
@@ -197,4 +207,99 @@
 .schedule {
     text-align: center;
     background-color: $light;
+
+    .header__time-example {
+        font-size: 2em;
+    }
+
+    .form-schedule {
+        display: flex;
+
+        @media (min-width: $for_small_up) {
+            flex-direction: column;
+            align-content: center;
+        }
+
+        @media (min-width: $for_medium_up) {
+            flex-direction: row;
+            justify-content: space-evenly;
+        }
+
+        &__wrapper {
+            border-radius: $radius;
+            background-color: $light;
+            color: $accent;
+            padding: 1.5em;
+            margin: 0.5em;
+            display: flex;
+            flex-direction: column;
+        }
+
+        &__input {
+            cursor: pointer;
+        }
+
+        &__input_type_text {
+            border-radius: $radius;
+            border: 5px solid $accent;
+            padding: 0.7em;
+            margin: 0.6em;
+        }
+    }
+
+    .button {
+        border-radius: $radius;
+        padding: 0.7em;
+        border: 2px solid $accent;
+        background-color: transparent;
+        cursor: pointer;
+    }
+
+    .table {
+        margin: 2em auto;
+        width: 70%;
+
+        &__header-cell {
+            border: 5px solid $accent;
+            border-radius: $radius;
+            font-size: 1.5em;
+            color: $accent;
+
+            @media (min-width: $for_small_up) {
+                padding: 0;
+            }
+
+            @media (min-width: $for_medium_up) {
+                padding: 1em;
+            }
+        }
+
+        &__data-cell {
+            border-bottom: 5px solid $accent;
+            color: $accent;
+
+            @media (min-width: $for_small_up) {
+                padding: 0;
+            }
+
+            @media (min-width: $for_medium_up) {
+                padding: 0.5em;
+                font-size: 1.3em;
+            }
+        }
+    }
+
+    .svg {
+        width: 20px;
+        height: 20px;
+    }
+}
+
+.page-footer {
+    margin-top: 2em;
+    background-color: $dark;
+    color: $light;
+    text-align: center;
+    font-size: 3em;
+    padding: 2em;
 }

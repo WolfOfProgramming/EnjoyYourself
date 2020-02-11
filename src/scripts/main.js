@@ -1,16 +1,26 @@
 import { renderInputForm } from './renderInputForm';
-import { createListContent, resetListContent } from './renderListContent';
-
+import { createListContent } from './renderListContent';
 import {
-    handleAddButton,
-    handleDeleteButton,
-    handleEditButton,
-    handleConfirmButton,
-    handleChangingProgress
+    createTimeParagraph,
+    removeTimeParagraph,
+    formatInputValue,
+    createTableContent
+} from './renderSchedule';
+import {
+    handleAddingValueToStorage,
+    handleDeletingValueFromStorage,
+    handleChangingItemValueInStorage,
+    handleCommittingItemChangesInStorage,
+    handleChangingProgressInStorage,
+    handlePushingItemToScheduleStorage,
+    handleDeletingItemFromScheduleStorage
 } from './buttonClickHandlers';
+import { resetElementContent } from './utilityFunctions';
+import { renderFormSchedule } from './renderFormSchedule';
 
 const mainSection = document.querySelector('.container');
-const scheduleForm = document.querySelector('.form-schedule');
+const scheduleHeader = document.querySelector('.header_style_square');
+const tableBody = document.querySelector('.table__body');
 
 const lifeGoalsList = document.querySelector(
     '.component__list_type_life-goals'
@@ -23,10 +33,10 @@ const dreamsHeader = document.querySelector('.header_type_dreams');
 const routinesHeader = document.querySelector('.header_type_routines');
 
 const scheduleFormObject = {
-    minuteTo: 0,
-    minuteSince: 0,
-    hourTo: 0,
-    hourSince: 0
+    minuteTo: '00',
+    minuteSince: '00',
+    hourTo: '00',
+    hourSince: '00'
 };
 
 lifeGoalsList.insertAdjacentHTML('beforeend', createListContent('life-goals'));
@@ -38,6 +48,9 @@ dreamsHeader.insertAdjacentHTML('beforeend', renderInputForm('dreams'));
 routinesList.insertAdjacentHTML('beforeend', createListContent('routines'));
 routinesHeader.insertAdjacentHTML('beforeend', renderInputForm('routines'));
 
+scheduleHeader.insertAdjacentHTML('beforeend', renderFormSchedule());
+tableBody.insertAdjacentHTML('beforeend', createTableContent('schedule'));
+
 mainSection.addEventListener('click', e => {
     const clickedButton = e.target.closest('button');
     if (clickedButton) {
@@ -48,32 +61,32 @@ mainSection.addEventListener('click', e => {
 
         switch (buttonTask) {
             case 'add':
-                handleAddButton(clickedButton);
+                handleAddingValueToStorage(clickedButton);
                 break;
             case 'delete':
-                handleDeleteButton(clickedButton);
+                handleDeletingValueFromStorage(clickedButton);
                 break;
             case 'done':
-                handleChangingProgress(clickedButton, 'Done');
+                handleChangingProgressInStorage(clickedButton, 'Done');
                 break;
             case 'progress':
-                handleChangingProgress(clickedButton, 'In progress');
+                handleChangingProgressInStorage(clickedButton, 'In progress');
                 break;
             case 'hang':
-                handleChangingProgress(clickedButton, 'Not now');
+                handleChangingProgressInStorage(clickedButton, 'Not now');
                 break;
             case 'confirm':
-                handleConfirmButton(clickedButton);
+                handleCommittingItemChangesInStorage(clickedButton);
                 break;
             case 'cancel':
                 break;
 
             case 'edit':
-                handleEditButton(clickedButton);
+                handleChangingItemValueInStorage(clickedButton);
                 return;
         }
 
-        resetListContent(componentList);
+        resetElementContent(componentList);
         componentList.insertAdjacentHTML(
             'beforeend',
             createListContent(componentName)
@@ -81,21 +94,49 @@ mainSection.addEventListener('click', e => {
     }
 });
 
-scheduleForm.addEventListener('input', e => {
+scheduleHeader.addEventListener('input', e => {
     const input = e.target;
     switch (input.dataset.time) {
         case 'minuteTo':
-            scheduleFormObject['minuteTo'] = input.value;
+            scheduleFormObject['minuteTo'] = formatInputValue(input.value);
             break;
         case 'minuteSince':
-            scheduleFormObject['minuteSince'] = input.value;
+            scheduleFormObject['minuteSince'] = formatInputValue(input.value);
             break;
         case 'hourTo':
-            scheduleFormObject['hourTo'] = input.value;
+            scheduleFormObject['hourTo'] = formatInputValue(input.value);
             break;
         case 'hourSince':
-            scheduleFormObject['hourSince'] = input.value;
+            scheduleFormObject['hourSince'] = formatInputValue(input.value);
             break;
     }
-    console.log(scheduleFormObject);
+    removeTimeParagraph();
+    scheduleHeader.insertAdjacentHTML(
+        'beforeend',
+        createTimeParagraph(scheduleFormObject)
+    );
+});
+
+scheduleHeader.addEventListener('click', e => {
+    if (e.target.tagName === 'BUTTON') {
+        const clickedButton = e.target;
+        handlePushingItemToScheduleStorage(clickedButton, scheduleFormObject);
+        resetElementContent(tableBody);
+        tableBody.insertAdjacentHTML(
+            'beforeend',
+            createTableContent('schedule')
+        );
+    }
+});
+
+tableBody.addEventListener('click', e => {
+    const clickedButton = e.target.closest('button');
+    if (clickedButton) {
+        handleDeletingItemFromScheduleStorage(clickedButton);
+        resetElementContent(tableBody);
+        tableBody.insertAdjacentHTML(
+            'beforeend',
+            createTableContent('schedule')
+        );
+    }
 });
