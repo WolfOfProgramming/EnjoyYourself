@@ -98,22 +98,7 @@ mainSection.addEventListener('click', (e) => {
 scheduleHeader.addEventListener('input', (e) => {
     const input = e.target;
     const inputData = input.dataset.time;
-
-    switch (inputData) {
-        case 'minuteTo':
-            scheduleFormObject[inputData] = formatInputValue(input.value);
-            break;
-        case 'minuteSince':
-            scheduleFormObject[inputData] = formatInputValue(input.value);
-            break;
-        case 'hourTo':
-            scheduleFormObject[inputData] = formatInputValue(input.value);
-            break;
-        case 'hourSince':
-            scheduleFormObject[inputData] = formatInputValue(input.value);
-            break;
-    }
-
+    scheduleFormObject[inputData] = formatInputValue(input.value);
     removeTimeParagraph();
     scheduleHeader.insertAdjacentHTML('beforeend', createTimeParagraph(scheduleFormObject));
 });
