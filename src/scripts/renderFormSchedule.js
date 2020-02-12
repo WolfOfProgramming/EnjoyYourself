@@ -1,9 +1,7 @@
 export const renderFormSchedule = () => {
     return /* HTML */ `
         <form class="form-schedule">
-            <div
-                class="form-schedule__wrapper form-schedule__wrapper_time-type_since"
-            >
+            <div class="form-schedule__wrapper form-schedule__wrapper_time-type_since">
                 <p class="form-schedule__description">
                     Choose task start time.
                 </p>
@@ -32,9 +30,7 @@ export const renderFormSchedule = () => {
                     />
                 </div>
             </div>
-            <div
-                class="form-schedule__wrapper form-schedule__wrapper_time-type_to"
-            >
+            <div class="form-schedule__wrapper form-schedule__wrapper_time-type_to">
                 <p class="form-schedule__description">Choose task end time.</p>
                 <div class="form-schedule__interface">
                     <label for="inputHourTo">Hour</label>

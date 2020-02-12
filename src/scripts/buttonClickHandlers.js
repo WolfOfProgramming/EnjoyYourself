@@ -1,88 +1,117 @@
 import { getSavedArray, changeSavedArray } from './utilityFunctions';
 import { renderEditForm } from './renderEditForm';
 
-const getItemIndex = (clickedItem, array) => {
-    return Array.from(array).indexOf(clickedItem);
+const inputSelector = 'formInput';
+const formSelector = 'form';
+const articleSelector = 'article';
+const itemSelector = 'li';
+const itemsClassSelector = '.component__item';
+const editFormSelector = '.form-edit';
+
+const scheduleInputSelector = '.form-schedule__input_type_text';
+const tableBodySelector = 'tbody';
+const tableRowSelector = 'tr';
+
+const getItemIndex = (clickedItem, nodeList) => {
+    return [...nodeList].indexOf(clickedItem);
 };
 
-const addItemObject = value => {
+const addItemObject = (value) => {
     return {
         value: value,
-        progress: 'In Progress'
+        status: 'In Progress'
     };
 };
 
 const hasOtherLiveEdits = () => {
-    return !!document.querySelector('.form-edit');
+    return !!document.querySelector(editFormSelector);
 };
 
-export const handleAddingValueToStorage = buttonReference => {
-    const componentReference = buttonReference.closest('article');
-    const componentName = componentReference.dataset.name;
-    const parentSection = buttonReference.closest('form');
-    const input = parentSection.querySelector('input');
+const getComponentRef = (buttonReference) => {
+    return buttonReference.closest(articleSelector);
+};
+
+const getComponentName = (componentReference) => {
+    return componentReference.dataset.name;
+};
+
+const getParentForm = (buttonReference) => {
+    return buttonReference.closest(formSelector);
+};
+
+const getFormInput = (parentForm) => {
+    return parentForm.querySelector(inputSelector);
+};
+
+const getComponentItems = (componentReference) => {
+    return componentReference.querySelectorAll(itemsClassSelector);
+};
+
+const getClickedItem = (buttonReference) => {
+    return buttonReference.closest(itemSelector);
+};
+
+export const handleAddingValueToStorage = (buttonReference) => {
+    const componentReference = getComponentRef(buttonReference);
+    const componentName = getComponentName(componentReference);
+    const parentForm = getParentForm(buttonReference);
+    const formInput = getFormInput(parentForm);
     const savedArray = getSavedArray(componentName);
 
-    if (input.value) {
-        const newArray = [...savedArray, addItemObject(input.value)];
+    if (formInput.value) {
+        const newArray = [...savedArray, addItemObject(formInput.value)];
         changeSavedArray(componentName, newArray);
     }
 };
 
-export const handleDeletingValueFromStorage = buttonReference => {
-    const componentReference = buttonReference.closest('article');
-    const componentName = componentReference.dataset.name;
+export const handleDeletingValueFromStorage = (buttonReference) => {
+    const componentReference = getComponentRef(buttonReference);
+    const componentName = getComponentName(componentReference);
     const savedArray = getSavedArray(componentName);
-    const componentItems = componentReference.querySelectorAll(
-        '.component__item'
-    );
-    const clickedItem = buttonReference.closest('li');
-
+    const componentItems = getComponentItems(componentReference);
+    const clickedItem = getClickedItem(buttonReference);
     const clickedItemIndex = getItemIndex(clickedItem, componentItems);
     const newArray = [...savedArray];
+
     newArray.splice(clickedItemIndex, 1);
     changeSavedArray(componentName, newArray);
 };
 
-export const handleCommittingItemChangesInStorage = buttonReference => {
-    const componentReference = buttonReference.closest('article');
-    const componentName = componentReference.dataset.name;
+export const handleCommittingItemChangesInStorage = (buttonReference) => {
+    const componentReference = getComponentRef(buttonReference);
+    const componentName = getComponentName(componentReference);
     const savedArray = getSavedArray(componentName);
-    const parentSection = buttonReference.closest('form');
-    const input = parentSection.querySelector('input');
-    const componentItems = componentReference.querySelectorAll(
-        '.component__item'
-    );
-    const clickedItem = buttonReference.closest('li');
+    const parentForm = getParentForm(buttonReference);
+    const formInput = getFormInput(parentForm);
+    const componentItems = getComponentItems(componentReference);
+    const clickedItem = getClickedItem(buttonReference);
     const clickedItemIndex = getItemIndex(clickedItem, componentItems);
 
-    if (input.value) {
+    if (formInput.value) {
         const newArray = [...savedArray];
-        newArray[clickedItemIndex] = addItemObject(input.value);
+        newArray[clickedItemIndex] = addItemObject(formInput.value);
         changeSavedArray(componentName, newArray);
     }
 };
 
-export const handleChangingItemValueInStorage = buttonReference => {
+export const handleChangingItemValueInStorage = (buttonReference) => {
     if (!hasOtherLiveEdits()) {
-        const parentItem = buttonReference.closest('li');
-        parentItem.textContent = '';
-        parentItem.insertAdjacentHTML('beforeend', renderEditForm());
+        const clickedItem = getClickedItem(buttonReference);
+        clickedItem.textContent = '';
+        clickedItem.insertAdjacentHTML('beforeend', renderEditForm());
     }
 };
 
-export const handleChangingProgressInStorage = (buttonReference, progress) => {
-    const componentReference = buttonReference.closest('article');
-    const componentName = componentReference.dataset.name;
+export const handleChangingStatusInStorage = (buttonReference, status) => {
+    const componentReference = getComponentRef(buttonReference);
+    const componentName = getComponentName(componentReference);
     const savedArray = getSavedArray(componentName);
-    const componentItems = componentReference.querySelectorAll(
-        '.component__item'
-    );
-    const clickedItem = buttonReference.closest('li');
+    const componentItems = getComponentItems(componentReference);
+    const clickedItem = getClickedItem(buttonReference);
     const clickedItemIndex = getItemIndex(clickedItem, componentItems);
-
     const newArray = [...savedArray];
-    newArray[clickedItemIndex].progress = progress;
+
+    newArray[clickedItemIndex].status = status;
     changeSavedArray(componentName, newArray);
 };
 
@@ -93,32 +122,25 @@ const createScheduleObject = (scheduleFormObject, description) => {
     };
 };
 
-export const handlePushingItemToScheduleStorage = (
-    buttonReference,
-    scheduleFormObject
-) => {
-    const parentElement = buttonReference.closest('form');
-    const input = parentElement.querySelector(
-        '.form-schedule__input_type_text'
-    );
+export const handlePushingItemToScheduleStorage = (buttonReference, scheduleFormObject) => {
+    const parentForm = getParentForm(buttonReference);
+    const formInput = parentForm.querySelector(scheduleInputSelector);
 
-    if (input.value) {
+    if (formInput.value) {
         const savedArray = getSavedArray('schedule');
-        const newArray = [
-            ...savedArray,
-            createScheduleObject(scheduleFormObject, input.value)
-        ];
+        const newArray = [...savedArray, createScheduleObject(scheduleFormObject, formInput.value)];
         changeSavedArray('schedule', newArray);
     }
 };
 
-export const handleDeletingItemFromScheduleStorage = buttonReference => {
+export const handleDeletingItemFromScheduleStorage = (buttonReference) => {
     const savedArray = getSavedArray('schedule');
-    const tableBody = buttonReference.closest('tbody');
-    const tableRows = tableBody.querySelectorAll('tr');
-    const clickedRow = buttonReference.closest('tr');
+    const tableBody = buttonReference.closest(tableBodySelector);
+    const tableRows = tableBody.querySelectorAll(tableRowSelector);
+    const clickedRow = buttonReference.closest(tableRowSelector);
     const clickedRowIndex = getItemIndex(clickedRow, tableRows);
     const newArray = [...savedArray];
+
     newArray.splice(clickedRowIndex, 1);
     changeSavedArray('schedule', newArray);
 };

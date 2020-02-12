@@ -1,11 +1,6 @@
 import { getSavedArray } from './utilityFunctions';
 
-export const createTimeParagraph = ({
-    hourSince,
-    minuteSince,
-    hourTo,
-    minuteTo
-}) => {
+export const createTimeParagraph = ({ hourSince, minuteSince, hourTo, minuteTo }) => {
     return /* HTML */ `
         <p class="header__time-example">
             Since:
@@ -23,24 +18,18 @@ export const removeTimeParagraph = () => {
     }
 };
 
-export const formatInputValue = inputValue => {
+export const formatInputValue = (inputValue) => {
     if (inputValue < 10) {
         return '0' + inputValue;
     }
     return inputValue;
 };
 
-export const resetScheduleContent = schedule => {
+export const resetScheduleContent = (schedule) => {
     schedule.textContent = '';
 };
 
-const renderTableRow = ({
-    hourSince,
-    minuteSince,
-    hourTo,
-    minuteTo,
-    description
-}) => {
+const renderTableRow = ({ hourSince, minuteSince, hourTo, minuteTo, description }) => {
     return /* HTML */ `
         <tr class="table__row">
             <td class="table__data-cell">${hourSince}:${minuteSince}</td>
@@ -60,16 +49,16 @@ const renderTableRow = ({
     `;
 };
 
-const renderStringsArray = array => {
-    return array.map(item => renderTableRow(item));
+const renderStringsArray = (array) => {
+    return array.map((item) => renderTableRow(item));
 };
 
-const renderRows = array => {
+const renderRows = (array) => {
     const stringsArray = renderStringsArray(array);
     return stringsArray.reduce((acc, el) => acc + el, '');
 };
 
-export const createTableContent = localStorageIdentifier => {
+export const createTableContent = (localStorageIdentifier) => {
     const savedArray = getSavedArray(localStorageIdentifier);
     return renderRows(savedArray);
 };

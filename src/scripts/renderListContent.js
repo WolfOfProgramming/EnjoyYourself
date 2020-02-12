@@ -1,18 +1,14 @@
 import { getSavedArray } from './utilityFunctions';
 
-const renderItemString = ({ value, progress }) => {
+const renderItemString = ({ value, status }) => {
     return /* HTML */ `
         <li class="item component__item">
             <div class="item__section">
                 <p class="item__description">${value}</p>
-                <p class="item__progress">${progress}</p>
+                <p class="item__status">${status}</p>
             </div>
             <div class="item__options">
-                <button
-                    class="button button_type_done"
-                    type="button"
-                    data-task="done"
-                >
+                <button class="button button_type_done" type="button" data-task="done">
                     <svg class="svg" viewBox="0 0 24 24">
                         <path
                             class="path"
@@ -21,9 +17,9 @@ const renderItemString = ({ value, progress }) => {
                     </svg>
                 </button>
                 <button
-                    class="button button_type_progress"
+                    class="button button_type_in-progress"
                     type="button"
-                    data-task="progress"
+                    data-task="in_progress"
                 >
                     <svg class="svg" viewBox="0 0 24 24">
                         <path
@@ -32,11 +28,7 @@ const renderItemString = ({ value, progress }) => {
                         />
                     </svg>
                 </button>
-                <button
-                    class="button button_type_hang"
-                    type="button"
-                    data-task="hang"
-                >
+                <button class="button button_type_not-now" type="button" data-task="not_now">
                     <svg class="svg" viewBox="0 0 24 24">
                         <path
                             class="path"
@@ -44,11 +36,7 @@ const renderItemString = ({ value, progress }) => {
                         />
                     </svg>
                 </button>
-                <button
-                    class="button button_type_edit"
-                    type="button"
-                    data-task="edit"
-                >
+                <button class="button button_type_edit" type="button" data-task="edit">
                     <svg class="svg" viewBox="0 0 24 24">
                         <path
                             class="path"
@@ -56,11 +44,7 @@ const renderItemString = ({ value, progress }) => {
                         />
                     </svg>
                 </button>
-                <button
-                    class="button button_type_delete"
-                    type="button"
-                    data-task="delete"
-                >
+                <button class="button button_type_delete" type="button" data-task="delete">
                     <svg class="svg" viewBox="0 0 24 24">
                         <path
                             class="path"
@@ -73,16 +57,16 @@ const renderItemString = ({ value, progress }) => {
     `;
 };
 
-const renderStringsArray = array => {
-    return array.map(item => renderItemString(item));
+const renderStringsArray = (array) => {
+    return array.map((item) => renderItemString(item));
 };
 
-const renderList = array => {
+const renderList = (array) => {
     const stringsArray = renderStringsArray(array);
     return stringsArray.reduce((acc, el) => acc + el, '');
 };
 
-export const createListContent = listName => {
+export const createListContent = (listName) => {
     const savedArray = getSavedArray(listName);
     return renderList(savedArray);
 };
