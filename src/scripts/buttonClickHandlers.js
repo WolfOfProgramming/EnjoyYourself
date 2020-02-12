@@ -1,7 +1,7 @@
 import { getSavedArray, changeSavedArray } from './utilityFunctions';
 import { renderEditForm } from './renderEditForm';
 
-const inputSelector = 'formInput';
+const inputSelector = 'input';
 const formSelector = 'form';
 const articleSelector = 'article';
 const itemSelector = 'li';
