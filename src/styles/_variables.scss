@@ -1,10 +1,32 @@
-$dark: #34495e;
+$dark: #2d3436;
 $white: #ffffff;
-$grey: #95a5a6;
-$accent: #f1c40f;
+$grey: #dfe4ea;
+$grey-light: #f5f6fa;
+$green: #72f556;
+$green-light: #c3fbb7;
+$red: #9e1528;
+$red-light: #fce8eb;
+$yellow: #562a56;
+$yellow-light: #e6cbe6;
+$accent: #0e5571;
+$accent-light: #bbe6f6;
+
+$font-dark: #000000;
+$font-grey: #636e72;
+$font-white: #ffffff;
 
 $btn-radius: 999px;
 $radius: 0.625em;
+
+$padding_very_small: 0.5em;
+$padding_small: 1em;
+$padding_medium: 2em;
+$padding_large: 3em;
+
+$margin_very_small: 0.5em;
+$margin_small: 1em;
+$margin_medium: 2em;
+$margin_large: 3em;
 
 $for_small_up: 350px;
 $for_medium_up: 700px;

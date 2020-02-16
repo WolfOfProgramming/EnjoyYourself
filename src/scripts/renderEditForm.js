@@ -1,17 +1,9 @@
 export const renderEditForm = () => {
     return /* HTML */ `
         <form class="form-edit">
-            <input
-                class="form-add__input"
-                type="text"
-                placeholder="Enter a new value."
-            />
+            <input class="form-edit__input" type="text" placeholder="Enter a new value." />
             <div class="form-edit__buttons-container">
-                <button
-                    class="button button_type_add"
-                    type="button"
-                    data-task="confirm"
-                >
+                <button class="button button_type_add" type="button" data-task="confirm">
                     <svg class="svg" viewBox="0 0 24 24">
                         <path
                             class="path"
@@ -19,11 +11,7 @@ export const renderEditForm = () => {
                         />
                     </svg>
                 </button>
-                <button
-                    class="button button_type_add"
-                    type="button"
-                    data-task="cancel"
-                >
+                <button class="button button_type_add" type="button" data-task="cancel">
                     <svg class="svg" viewBox="0 0 24 24">
                         <path
                             class="path"

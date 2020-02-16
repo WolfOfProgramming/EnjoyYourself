@@ -1,4 +1,10 @@
-import { getSavedArray, changeSavedArray } from './utilityFunctions';
+import {
+    getSavedListObject,
+    changeSavedListObject,
+    getNumberOfSavedLists,
+    setNumberOfSavedLists,
+    deleteSavedListObject
+} from './utilityFunctions';
 import { renderEditForm } from './renderEditForm';
 
 const inputSelector = 'input';
@@ -7,6 +13,10 @@ const articleSelector = 'article';
 const itemSelector = 'li';
 const itemsClassSelector = '.component__item';
 const editFormSelector = '.form-edit';
+const progressContainerSelector = '.progress-container';
+const progressContainerTextSelector = '.progress-container__progression-text';
+const progressBarSelector = '.progress-bar';
+const doneItemSelector = '.button_type_done.button_active';
 
 const scheduleInputSelector = '.form-schedule__input_type_text';
 const tableBodySelector = 'tbody';
@@ -19,7 +29,7 @@ const getItemIndex = (clickedItem, nodeList) => {
 const addItemObject = (value) => {
     return {
         value: value,
-        status: 'In Progress'
+        status: 'in_progress'
     };
 };
 
@@ -52,45 +62,65 @@ const getClickedItem = (buttonReference) => {
 };
 
 export const handleAddingValueToStorage = (buttonReference) => {
-    const componentReference = getComponentRef(buttonReference);
-    const componentName = getComponentName(componentReference);
     const parentForm = getParentForm(buttonReference);
     const formInput = getFormInput(parentForm);
-    const savedArray = getSavedArray(componentName);
+    const formInputValue = formInput.value;
 
-    if (formInput.value) {
-        const newArray = [...savedArray, addItemObject(formInput.value)];
-        changeSavedArray(componentName, newArray);
+    if (formInputValue) {
+        const componentReference = getComponentRef(buttonReference);
+        const componentName = getComponentName(componentReference);
+        const savedListObject = getSavedListObject(componentName);
+
+        const newListObject = {
+            name: savedListObject.name,
+            items: [...savedListObject.items, addItemObject(formInputValue)]
+        };
+
+        changeSavedListObject(componentName, newListObject);
     }
 };
 
 export const handleDeletingValueFromStorage = (buttonReference) => {
     const componentReference = getComponentRef(buttonReference);
     const componentName = getComponentName(componentReference);
-    const savedArray = getSavedArray(componentName);
     const componentItems = getComponentItems(componentReference);
     const clickedItem = getClickedItem(buttonReference);
     const clickedItemIndex = getItemIndex(clickedItem, componentItems);
-    const newArray = [...savedArray];
 
-    newArray.splice(clickedItemIndex, 1);
-    changeSavedArray(componentName, newArray);
+    const savedListObject = getSavedListObject(componentName);
+    const newListObjectArray = savedListObject.items;
+    newListObjectArray.splice(clickedItemIndex, 1);
+
+    const newListObject = {
+        name: savedListObject.name,
+        items: [...newListObjectArray]
+    };
+
+    changeSavedListObject(componentName, newListObject);
 };
 
 export const handleCommittingItemChangesInStorage = (buttonReference) => {
-    const componentReference = getComponentRef(buttonReference);
-    const componentName = getComponentName(componentReference);
-    const savedArray = getSavedArray(componentName);
     const parentForm = getParentForm(buttonReference);
     const formInput = getFormInput(parentForm);
-    const componentItems = getComponentItems(componentReference);
-    const clickedItem = getClickedItem(buttonReference);
-    const clickedItemIndex = getItemIndex(clickedItem, componentItems);
+    const formInputValue = formInput.value;
 
-    if (formInput.value) {
-        const newArray = [...savedArray];
-        newArray[clickedItemIndex] = addItemObject(formInput.value);
-        changeSavedArray(componentName, newArray);
+    if (formInputValue) {
+        const componentReference = getComponentRef(buttonReference);
+        const componentName = getComponentName(componentReference);
+        const componentItems = getComponentItems(componentReference);
+        const clickedItem = getClickedItem(buttonReference);
+        const clickedItemIndex = getItemIndex(clickedItem, componentItems);
+
+        const savedListObject = getSavedListObject(componentName);
+        const newListObjectArray = savedListObject.items;
+        newListObjectArray[clickedItemIndex] = addItemObject(formInputValue);
+
+        const newListObject = {
+            name: savedListObject.name,
+            items: [...newListObjectArray]
+        };
+
+        changeSavedListObject(componentName, newListObject);
     }
 };
 
@@ -105,14 +135,20 @@ export const handleChangingItemValueInStorage = (buttonReference) => {
 export const handleChangingStatusInStorage = (buttonReference, status) => {
     const componentReference = getComponentRef(buttonReference);
     const componentName = getComponentName(componentReference);
-    const savedArray = getSavedArray(componentName);
     const componentItems = getComponentItems(componentReference);
     const clickedItem = getClickedItem(buttonReference);
     const clickedItemIndex = getItemIndex(clickedItem, componentItems);
-    const newArray = [...savedArray];
 
-    newArray[clickedItemIndex].status = status;
-    changeSavedArray(componentName, newArray);
+    const savedListObject = getSavedListObject(componentName);
+    const newListObjectArray = savedListObject.items;
+    newListObjectArray[clickedItemIndex].status = status;
+
+    const newListObject = {
+        name: savedListObject.name,
+        items: [...newListObjectArray]
+    };
+
+    changeSavedListObject(componentName, newListObject);
 };
 
 const createScheduleObject = (scheduleFormObject, description) => {
@@ -143,4 +179,49 @@ export const handleDeletingItemFromScheduleStorage = (buttonReference) => {
 
     newArray.splice(clickedRowIndex, 1);
     changeSavedArray('schedule', newArray);
+};
+
+const getBarProgression = (totalItemsNumberLenght, totalDoneItemsLenght) => {
+    return (totalDoneItemsLenght / totalItemsNumberLenght) * 100;
+};
+
+export const handleRemovingListFromStorage = (buttonReference) => {
+    const componentReference = getComponentRef(buttonReference);
+    const componentName = getComponentName(componentReference);
+    const numberOfSavedLists = getNumberOfSavedLists();
+    const newListObjectArray = [];
+
+    for (let counter = 0; counter < numberOfSavedLists; counter++) {
+        if (counter != componentName) {
+            newListObjectArray.push(getSavedListObject(counter));
+        }
+    }
+
+    newListObjectArray.forEach((listObject, index) => changeSavedListObject(index, listObject));
+    setNumberOfSavedLists(+numberOfSavedLists - 1);
+    deleteSavedListObject(numberOfSavedLists);
+};
+
+const updateProgressBar = (componentReference) => {
+    const progressContainer = componentReference.querySelector(progressContainerSelector);
+    const totalItemsNumber = getComponentItems(componentReference);
+
+    if (totalItemsNumber.length === 0) {
+        progressContainer.hidden = true;
+        return;
+    }
+    progressContainer.hidden = false;
+
+    const totalDoneItemsLenght = componentReference.querySelectorAll(doneItemSelector).length;
+    const progressContainerText = componentReference.querySelector(progressContainerTextSelector);
+    progressContainerText.textContent = `${totalDoneItemsLenght}/${totalItemsNumber.length}`;
+
+    const progressBar = componentReference.querySelector(progressBarSelector);
+    const barProgression = getBarProgression(totalItemsNumber.length, totalDoneItemsLenght);
+    progressBar.style.width = barProgression + '%';
+};
+
+export const updateProgressBars = () => {
+    const progressBars = document.querySelectorAll(articleSelector);
+    progressBars.forEach((progressBar) => updateProgressBar(progressBar));
 };
