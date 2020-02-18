@@ -1,4 +1,7 @@
+import { compare } from './createListContent';
+
 export const changeSavedListObject = (listName, newListObject) => {
+    newListObject.items = newListObject.items.sort(compare);
     localStorage.setItem(listName, JSON.stringify(newListObject));
 };
 

@@ -18,10 +18,6 @@ const progressContainerTextSelector = '.progress-container__progression-text';
 const progressBarSelector = '.progress-bar';
 const doneItemSelector = '.button_type_done.button_active';
 
-const scheduleInputSelector = '.form-schedule__input_type_text';
-const tableBodySelector = 'tbody';
-const tableRowSelector = 'tr';
-
 const getItemIndex = (clickedItem, nodeList) => {
     return [...nodeList].indexOf(clickedItem);
 };
@@ -149,36 +145,6 @@ export const handleChangingStatusInStorage = (buttonReference, status) => {
     };
 
     changeSavedListObject(componentName, newListObject);
-};
-
-const createScheduleObject = (scheduleFormObject, description) => {
-    return {
-        ...scheduleFormObject,
-        description: description
-    };
-};
-
-export const handlePushingItemToScheduleStorage = (buttonReference, scheduleFormObject) => {
-    const parentForm = getParentForm(buttonReference);
-    const formInput = parentForm.querySelector(scheduleInputSelector);
-
-    if (formInput.value) {
-        const savedArray = getSavedArray('schedule');
-        const newArray = [...savedArray, createScheduleObject(scheduleFormObject, formInput.value)];
-        changeSavedArray('schedule', newArray);
-    }
-};
-
-export const handleDeletingItemFromScheduleStorage = (buttonReference) => {
-    const savedArray = getSavedArray('schedule');
-    const tableBody = buttonReference.closest(tableBodySelector);
-    const tableRows = tableBody.querySelectorAll(tableRowSelector);
-    const clickedRow = buttonReference.closest(tableRowSelector);
-    const clickedRowIndex = getItemIndex(clickedRow, tableRows);
-    const newArray = [...savedArray];
-
-    newArray.splice(clickedRowIndex, 1);
-    changeSavedArray('schedule', newArray);
 };
 
 const getBarProgression = (totalItemsNumberLenght, totalDoneItemsLenght) => {

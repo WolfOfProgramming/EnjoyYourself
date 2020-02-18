@@ -3,6 +3,14 @@ const STATUS_IN_PROGRESS_NAME = 'in_progress';
 const STATUS_NOT_NOW_NAME = 'not_now';
 const CLASS_ACTIVE_BUTTON = 'button_active';
 
+const statusOrder = [STATUS_IN_PROGRESS_NAME, STATUS_NOT_NOW_NAME, STATUS_DONE_NAME];
+
+export function compare(a, b) {
+    const aIndex = statusOrder.indexOf(a.status);
+    const bIndex = statusOrder.indexOf(b.status);
+    return aIndex - bIndex;
+}
+
 const renderItemString = ({ value, status }) => {
     return /* HTML */ `
         <li class="item component__item">
@@ -82,7 +90,7 @@ const renderStringsArray = (itemsArray) => {
 };
 
 export const createListContent = (itemsArray) => {
-    const stringsArray = renderStringsArray(itemsArray);
     console.log(itemsArray);
+    const stringsArray = renderStringsArray(itemsArray);
     return stringsArray.reduce((acc, cur) => acc + cur, '');
 };

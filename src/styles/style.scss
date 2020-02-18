@@ -203,15 +203,15 @@
 .container {
     width: 100%;
     max-height: 100vh;
-    overflow: hidden;
     display: flex;
     flex-direction: column;
+    overflow: hidden;
 
     &-flex {
         display: flex;
         background-color: $white;
         width: 100%;
-        overflow: scroll;
+        overflow: auto auto;
     }
 
     .component {
@@ -236,6 +236,7 @@
             margin: 0 $margin_small;
             border-radius: $radius;
             position: relative;
+            background-color: $accent-light;
             color: $white;
             padding: $padding_small;
 
@@ -256,6 +257,11 @@
                 z-index: 10;
             }
 
+            &__progression-text {
+                color: $accent;
+                font-size: 1.125em;
+            }
+
             .svg {
                 width: 30px;
                 height: 30px;
@@ -265,60 +271,13 @@
             .path {
                 fill: $white;
             }
-
-            &_color_red {
-                background-color: $red-light;
-
-                .progress-bar {
-                    background-color: $red;
-                }
-
-                .progress-container__progression-text {
-                    color: $red;
-                }
-            }
-
-            &_color_accent {
-                background-color: $accent-light;
-
-                .progress-bar {
-                    background-color: $accent;
-                }
-
-                .progress-container__progression-text {
-                    color: $accent;
-                }
-            }
-
-            &_color_green {
-                background-color: $green-light;
-
-                .progress-bar {
-                    background-color: $green;
-                }
-
-                .progress-container__progression-text {
-                    color: $green;
-                }
-            }
-
-            &_color_yellow {
-                background-color: $yellow-light;
-
-                .progress-bar {
-                    background-color: $yellow;
-                }
-
-                .progress-container__progression-text {
-                    color: $yellow;
-                }
-            }
         }
 
         .progress-bar {
             width: 0%;
             height: 100%;
             border-radius: $radius;
+            background-color: $accent;
             position: absolute;
             z-index: 5;
             left: 0;
@@ -364,12 +323,6 @@
     }
 }
 
-.header_style_square {
-    background-color: $accent;
-    border-radius: 0;
-    color: $white;
-}
-
 .item {
     display: flex;
     flex-direction: column;
@@ -410,6 +363,16 @@
         transition: 300ms ease-in-out;
     }
 
+    .button_active {
+        background-color: $accent;
+        transform: scale(1.5);
+        border-radius: 25%;
+
+        .path {
+            fill: $white;
+        }
+    }
+
     .svg {
         width: $size;
         height: $size;
@@ -443,36 +406,6 @@
     .form-edit .button:hover {
         .path {
             fill: #000000;
-        }
-    }
-
-    .button_type_in-progress.button_active {
-        background-color: $yellow !important;
-        border-radius: 25%;
-        transform: scale(1.5);
-
-        .path {
-            fill: $white;
-        }
-    }
-
-    .button_type_done.button_active {
-        background-color: $green !important;
-        border-radius: 25%;
-        transform: scale(1.5);
-
-        .path {
-            fill: $white;
-        }
-    }
-
-    .button_type_not-now.button_active {
-        background-color: $red !important;
-        border-radius: 25%;
-        transform: scale(1.5);
-
-        .path {
-            fill: $white;
         }
     }
 }
@@ -530,96 +463,5 @@
         color: $font-dark;
         border-radius: $btn-radius;
         border: none;
-    }
-}
-
-.schedule {
-    text-align: center;
-    background-color: $white;
-
-    .header__time-example {
-        font-size: 2em;
-    }
-
-    .form-schedule {
-        display: flex;
-
-        @media (min-width: $for_small_up) {
-            flex-direction: column;
-            align-content: center;
-        }
-
-        @media (min-width: $for_medium_up) {
-            flex-direction: row;
-            justify-content: space-evenly;
-        }
-
-        &__wrapper {
-            border-radius: $radius;
-            background-color: $white;
-            color: $accent;
-            padding: 1.5em;
-            margin: 0.5em;
-            display: flex;
-            flex-direction: column;
-        }
-
-        &__input {
-            cursor: pointer;
-        }
-
-        &__input_type_text {
-            border-radius: $radius;
-            border: 5px solid $accent;
-            padding: 0.7em;
-            margin: 0.6em;
-        }
-    }
-
-    .button {
-        border-radius: $radius;
-        padding: 0.7em;
-        border: 2px solid $accent;
-        background-color: transparent;
-        cursor: pointer;
-    }
-
-    .table {
-        margin: 2em auto;
-        width: 70%;
-
-        &__header-cell {
-            border: 5px solid $accent;
-            border-radius: $radius;
-            font-size: 1.5em;
-            color: $accent;
-
-            @media (min-width: $for_small_up) {
-                padding: 0;
-            }
-
-            @media (min-width: $for_medium_up) {
-                padding: 1em;
-            }
-        }
-
-        &__data-cell {
-            border-bottom: 5px solid $accent;
-            color: $accent;
-
-            @media (min-width: $for_small_up) {
-                padding: 0;
-            }
-
-            @media (min-width: $for_medium_up) {
-                padding: 0.5em;
-                font-size: 1.3em;
-            }
-        }
-    }
-
-    .svg {
-        width: 20px;
-        height: 20px;
     }
 }
