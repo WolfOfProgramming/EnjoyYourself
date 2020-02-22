@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <title>Enjoy yourself</title>
+        <link rel="stylesheet" href="src/styles/normalize.css" />
+        <link
+            href="https://fonts.googleapis.com/css?family=Montserrat&display=swap"
+            rel="stylesheet"
+        />
+        <link rel="stylesheet" href="src/styles/style.scss" />
+        <script src="src/scripts/main.js" defer></script>
+    </head>
+    <body>
+        <div class="popup" hidden>
+            <div class="popup-window">
+                <div class="popup-window__top">
+                    <h2 class=""></h2>
+                    <input class="popup-window__input" type="text" placeholder="Enter list name." />
+                    <button class="button popup-window__button">Add</button>
+                </div>
+                <div class="popup-window__bottom">
+                    <p class="popup-window__paragraph">Make your dreams come true.</p>
+                </div>
+                <button class="button button_type_close">
+                    <svg class="svg" viewBox="0 0 24 24">
+                        <path
+                            class="path"
+                            d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z"
+                        />
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <div class="wrapper">
+            <nav class="navigation">
+                <ul class="navigation-list">
+                    <li class="navigation-list__item navigation-list__item_active">
+                        <a class="navigation-list__link">
+                            <svg class="svg" viewBox="0 0 24 24">
+                                <path
+                                    class="path"
+                                    d="M3,4H7V8H3V4M9,5V7H21V5H9M3,10H7V14H3V10M9,11V13H21V11H9M3,16H7V20H3V16M9,17V19H21V17H9"
+                                />
+                            </svg>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            <main class="container">
+                <header class="page-header">
+                    <h1 class="title">Lists</h1>
+                    <button type="button" class="button button_type_add-list">
+                        <svg class="svg" viewBox="0 0 24 24">
+                            <path
+                                class="path"
+                                d="M2,16H10V14H2M18,14V10H16V14H12V16H16V20H18V16H22V14M14,6H2V8H14M14,10H2V12H14V10Z"
+                            />
+                        </svg>
+                        <span class="span">Add List</span>
+                    </button>
+                </header>
+                <div class="container-flex"></div>
+            </main>
+        </div>
+    </body>
+</html>
